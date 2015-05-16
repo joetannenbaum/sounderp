@@ -17,6 +17,18 @@ module.exports = function(app) {
             mainPlayer = ngAudio.load(response.data.full_url);
             mainPlayer.play();
         });
+
+        $scope.muted = false;
+
+        $scope.mutePlayer = function() {
+            mainPlayer.volume = 0;
+            $scope.muted = true;
+        };
+
+        $scope.unmutePlayer = function() {
+            mainPlayer.volume = 1;
+            $scope.muted = false;
+        };
     }]);
 
     app.controller('ListController', ['$scope', 'Firebase', '$timeout', '$filter', 'Server', function($scope, Firebase, $timeout, $filter, Server) {

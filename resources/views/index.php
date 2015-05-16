@@ -10,7 +10,10 @@
     <div class="container-fluid">
         <div class="col-md-8">
             <div ng-controller="AuthController"></div>
-            <div ng-controller="PlayerController"></div>
+            <div ng-controller="PlayerController">
+                <button ng-click="unmutePlayer()" ng-if="muted" class="btn btn-info"><span class="glyphicon glyphicon-volume-off"></span></button>
+                <button ng-click="mutePlayer()" ng-if="!muted" class="btn btn-info"><span class="glyphicon glyphicon-volume-up"></span></button>
+            </div>
             <div ng-controller="ListController">
                 <ul class="list-group media-list" id="playlist">
                     <li class="media list-group-item" ng-class="{disabled: item.status == 'processing'}" style="margin-top:0;" ng-repeat="item in tracks">
