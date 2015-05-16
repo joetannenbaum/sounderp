@@ -9,7 +9,7 @@ module.exports = function(app) {
         }
 
         this.rebuildPlaylist = function(data) {
-            return $http.post('/playlist', { urls: data });
+            return $http.post('/playlist', { playlist: data });
         }
 
     }]);

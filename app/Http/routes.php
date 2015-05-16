@@ -74,9 +74,18 @@ $app->group(['prefix' => 'config'], function() use ($app) {
 });
 
 $app->post('playlist', function() {
-    $urls = \Request::get('urls');
+    $playlist = \Request::get('playlist');
 
-    file_put_contents(storage_path('playlist/dev.txt'), implode("\n", $urls));
+    $data = [];
+
+    foreach ($playlist as $item) {
+        $data[] = 'annotate:title="'
+                    . htmlentities($item['title']) . '",artist="'
+                    . htmlentities($item['artist']) . '":'
+                    . $item['url'];
+    }
+
+    file_put_contents(storage_path('playlist/dev.txt'), implode("\n", $data));
 });
 
 $app->group(['prefix' => 'track'], function() use ($app) {

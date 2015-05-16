@@ -37,7 +37,7 @@ module.exports = function(app) {
 
             reorderTracks();
 
-            var playableUrls = _.pluck(_.filter($scope.tracks, {status: 'playable'}), 'url');
+            var playableUrls = _.filter($scope.tracks, {status: 'playable'});
 
             Server.rebuildPlaylist(playableUrls);
         };
