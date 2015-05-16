@@ -73,6 +73,12 @@ $app->group(['prefix' => 'config'], function() use ($app) {
     });
 });
 
+$app->post('playlist', function() {
+    $urls = \Request::get('urls');
+
+    file_put_contents(storage_path('playlist/dev.txt'), implode("\n", $urls));
+});
+
 $app->group(['prefix' => 'track'], function() use ($app) {
     $app->post('process', 'App\Track\Processor@process');
 });

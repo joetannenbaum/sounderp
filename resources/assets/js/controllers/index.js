@@ -19,8 +19,14 @@ module.exports = function(app) {
         });
     }]);
 
-    app.controller('ListController', ['$scope', 'Firebase', '$timeout', function($scope, Firebase, $timeout) {
+    app.controller('ListController', ['$scope', 'Firebase', '$timeout', '$filter', 'Server', function($scope, Firebase, $timeout, $filter, Server) {
         $scope.tracks = [];
+
+        var orderBy = $filter('orderBy');
+
+        var reorderTracks = function() {
+            $scope.tracks = orderBy($scope.tracks, ['-votes.length', 'last_vote', 'last_played', 'added_on']);
+        };
 
         var updateTrack = function(track) {
             _.each($scope.tracks, function(item, key) {
@@ -28,16 +34,27 @@ module.exports = function(app) {
                     $scope.tracks[key] = track;
                 }
             });
+
+            reorderTracks();
+
+            var playableUrls = _.pluck(_.filter($scope.tracks, {status: 'playable'}), 'url');
+
+            Server.rebuildPlaylist(playableUrls);
+        };
+
+        var addTrack = function(track) {
+            $scope.tracks.push(track);
+            reorderTracks();
         }
 
         $timeout(function() {
-            Firebase.listenFor.newTracks($scope.tracks);
+            Firebase.listenFor.newTracks(addTrack);
             Firebase.listenFor.updatedTracks(updateTrack);
         }, 500);
 
         $scope.upVote = function(item) {
             Firebase.addVote(item.id, user);
-        }
+        };
     }]);
 
     app.controller('SearchController', ['$scope', 'Firebase', 'SounderpSpotify', 'SoundCloud', 'YouTube', 'Server', 'ngAudio', 'ngAudioGlobals', function($scope, Firebase, SounderpSpotify, SoundCloud, YouTube, Server, ngAudio, ngAudioGlobals) {

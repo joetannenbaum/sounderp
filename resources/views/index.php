@@ -13,7 +13,7 @@
             <div ng-controller="PlayerController"></div>
             <div ng-controller="ListController">
                 <ul class="list-group media-list" id="playlist">
-                    <li class="media list-group-item" ng-class="{disabled: item.status == 'processing'}" style="margin-top:0;" ng-repeat="item in tracks | orderBy:['-votes.length', 'last_vote', 'last_played', 'added_on']">
+                    <li class="media list-group-item" ng-class="{disabled: item.status == 'processing'}" style="margin-top:0;" ng-repeat="item in tracks">
                         <div class="media-left">
                             <i ng-if="item.status === 'processing'" class="loading-icon fa fa-circle-o-notch fa-spin"></i>
                             <img class="media-object" width="75" height="75" ng-src="{{ item.thumbnail }}" />

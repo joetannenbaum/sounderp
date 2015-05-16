@@ -116,9 +116,9 @@ module.exports = function(app) {
         };
 
         this.listenFor = {
-            newTracks: function(tracks) {
+            newTracks: function(callback) {
                 obj.fb.tracks.on('child_added', function(snapshot) {
-                    tracks.push(obj.formatTrackData(snapshot.key(), snapshot.val()));
+                    callback(obj.formatTrackData(snapshot.key(), snapshot.val()));
                 });
             },
             updatedTracks: function(callback) {

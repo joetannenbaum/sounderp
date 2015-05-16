@@ -8,6 +8,10 @@ module.exports = function(app) {
             return $http.post('/track/process', data);
         }
 
+        this.rebuildPlaylist = function(data) {
+            return $http.post('/playlist', { urls: data });
+        }
+
     }]);
 
 }
