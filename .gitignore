@@ -1,0 +1,6 @@
+/lumen.log
+/vendor
+.env
+node_modules
+public/js
+public/css

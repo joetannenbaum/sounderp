@@ -1,0 +1,25 @@
+{
+  "name": "Sounderp",
+  "version": "0.0.0",
+  "authors": [
+    "Joe Tannenbaum <joe@joe.codes>"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "angular": "~1.3.15",
+    "angular-spotify": "~0.14.0",
+    "bootstrap": "~3.3.4",
+    "lodash": "~3.8.0",
+    "angularjs": "~1.3.15",
+    "angular-audio": "~1.6.2",
+    "firebase": "~2.2.4",
+    "moment": "~2.10.3"
+  }
+}

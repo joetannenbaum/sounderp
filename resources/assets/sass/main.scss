@@ -1,0 +1,32 @@
+body {
+    padding-top: 15px;
+}
+
+.votes {
+    position: absolute;
+    right: 15px;
+    bottom: 10px;
+
+    li {
+        padding-left: 3px;
+        padding-right: 3px;
+    }
+
+    img {
+        border-radius: 50%;
+    }
+}
+
+#playlist {
+    .disabled {
+        .loading-icon {
+            position: absolute;
+            left: 45px;
+            top: 40px;
+        }
+
+        .media-object {
+            opacity: .25;
+        }
+    }
+}
