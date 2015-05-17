@@ -64,7 +64,7 @@
                 </ul>
             </div>
         </div>
-        <div ng-controller="SearchController" class="col-md-4 well">
+        <div ng-controller="SearchController" class="col-md-4" id="search-pane">
             <form name="search" ng-submit="searchForTracks()">
                 <div ng-class="{'form-group': results.length === 0, 'input-group': results.length > 0}">
                     <input required name="query" autocomplete="off" placeholder="Search" class="form-control" ng-model="query" />
@@ -75,7 +75,7 @@
                     </span>
                 </div>
             </form>
-            <div id="search-results" ng-repeat="result in results">
+            <div class="search-results" ng-repeat="result in results">
                 <h4>{{ result.provider }} <span class="badge">{{ result.items.length }}</span></h4>
                 <ul class="list-group media-list">
                     <li class="media list-group-item" style="margin-top:0;" ng-repeat="item in result.items">

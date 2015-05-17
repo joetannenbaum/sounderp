@@ -128,13 +128,6 @@ module.exports = function(app) {
             }
         };
 
-        this.setAsPlayed = function(id) {
-            this.fb.tracks.child(id).update({
-                votes: [],
-                last_played: Firebase.ServerValue.TIMESTAMP
-            });
-        }
-
         this.getTrackByTitleAndArtist = function(title_artist) {
             var deferred = $q.defer();
 

@@ -14,7 +14,6 @@ module.exports = function(app) {
         this.search = function(query) {
             return Spotify.search(query, 'track').then(function(data) {
                 return _.map(data.tracks.items, function (item) {
-                    console.log(_.first(item.album.images));
                     return {
                         title: item.name,
                         art: {

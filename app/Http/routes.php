@@ -15,18 +15,6 @@ $app->get('/', function() use ($app) {
     return view('index');
 });
 
-$app->get('metadata', function() {
-    $client = new GuzzleHttp\Client;
-
-    $response = $client->get('http://' . env('ICECAST_URL') . ':' . env('ICECAST_PORT') . '/' . env('ICECAST_STREAM') . '.xspf');
-
-    $title = (string) $response->xml()->trackList->track->title;
-
-    return [
-        'key' => htmlspecialchars_decode($title),
-    ];
-});
-
 $app->get('playlist', function() {
     $tracks = [
         '../audio/vincent.ogg',

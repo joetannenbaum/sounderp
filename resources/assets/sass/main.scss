@@ -17,6 +17,19 @@ body {
     }
 }
 
+#search-pane {
+    position:fixed;
+    height: 100%;
+    right:0;
+    top:0;
+    overflow: auto;
+    border-left:1px solid #eee;
+
+    form {
+        margin: 20px 0;
+    }
+}
+
 #currently-playing {
     position: relative;
     padding-left: 240px;

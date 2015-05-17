@@ -22,23 +22,6 @@ module.exports = function(app) {
 
         $scope.current = {};
 
-        var checkMetadata = function() {
-            $http.get('/metadata').then(function(response) {
-                if (response.data.key !== $scope.current.key) {
-                    Firebase.getTrackByTitleAndArtist(response.data.key).then(function(track) {
-                        $scope.current     = track;
-                        $scope.current.key = response.data.key;
-
-                        Firebase.setAsPlayed(track.id);
-                    });
-                }
-
-                $timeout(checkMetadata, 3000);
-            });
-        }
-
-        $timeout(checkMetadata, 500);
-
         $scope.mutePlayer = function() {
             mainPlayer.volume = 0;
             $scope.muted = true;
