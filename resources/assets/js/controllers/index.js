@@ -11,7 +11,7 @@ module.exports = function(app) {
         });
     });
 
-    app.controller('PlayerController', ['$scope', 'ngAudio', 'ngAudioGlobals', '$http', function($scope, ngAudio, ngAudioGlobals, $http) {
+    app.controller('PlayerController', ['$scope', 'ngAudio', 'ngAudioGlobals', '$http', '$timeout', 'Firebase', function($scope, ngAudio, ngAudioGlobals, $http, $timeout, Firebase) {
         $http.get('/config/streaming').then(function(response) {
             ngAudioGlobals.unlock = false;
             mainPlayer = ngAudio.load(response.data.full_url);
@@ -19,6 +19,25 @@ module.exports = function(app) {
         });
 
         $scope.muted = false;
+
+        $scope.current = {};
+
+        var checkMetadata = function() {
+            $http.get('/metadata').then(function(response) {
+                if (response.data.key !== $scope.current.key) {
+                    Firebase.getTrackByTitleAndArtist(response.data.key).then(function(track) {
+                        $scope.current     = track;
+                        $scope.current.key = response.data.key;
+
+                        Firebase.setAsPlayed(track.id);
+                    });
+                }
+
+                $timeout(checkMetadata, 3000);
+            });
+        }
+
+        $timeout(checkMetadata, 500);
 
         $scope.mutePlayer = function() {
             mainPlayer.volume = 0;
@@ -104,7 +123,9 @@ module.exports = function(app) {
                     });
                 });
             } else {
-                Firebase.addTrack(track);
+                Firebase.addTrack(track).then(function(response) {
+                        Server.processTrack(response);
+                    });
             }
         }
 

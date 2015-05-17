@@ -17,6 +17,21 @@ body {
     }
 }
 
+#currently-playing {
+    position: relative;
+    padding-left: 240px;
+
+    h1 {
+        margin-top:0;
+    }
+
+    .thumbnail {
+        position: absolute;
+        left: 60px;
+        top: 48px;
+    }
+}
+
 #playlist {
     .disabled {
         .loading-icon {

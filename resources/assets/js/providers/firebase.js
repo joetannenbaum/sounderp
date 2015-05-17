@@ -128,6 +128,28 @@ module.exports = function(app) {
             }
         };
 
+        this.setAsPlayed = function(id) {
+            this.fb.tracks.child(id).update({
+                votes: [],
+                last_played: Firebase.ServerValue.TIMESTAMP
+            });
+        }
+
+        this.getTrackByTitleAndArtist = function(title_artist) {
+            var deferred = $q.defer();
+
+            this.fb.tracks.once('value', function(snapshot) {
+                _.each(snapshot.val(), function(item, key) {
+                    if (item.artist + ' - ' + item.title === title_artist) {
+                        deferred.resolve(obj.formatTrackData(key, item));
+                        return;
+                    }
+                });
+            });
+
+            return deferred.promise;
+        };
+
     }]);
 
 }

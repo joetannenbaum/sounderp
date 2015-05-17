@@ -19,9 +19,12 @@ module.exports = function(app) {
                     if (item.kind == 'track') {
                         return {
                             title: item.title,
-                            url: item.permalink_url,
-                            thumbnail: item.artwork_url,
+                            art: {
+                                full: item.artwork_url,
+                                thumbnail: item.artwork_url,
+                            },
                             artist: item.user.username,
+                            duration: item.duration,
                             sources: [
                                 {
                                     type: 'soundcloud',

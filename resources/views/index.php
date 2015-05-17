@@ -10,16 +10,22 @@
     <div class="container-fluid">
         <div class="col-md-8">
             <div ng-controller="AuthController"></div>
-            <div ng-controller="PlayerController">
+            <div ng-controller="PlayerController" class="jumbotron" id="currently-playing">
+                <img class="thumbnail" width="150" height="150" ng-src="{{ current.art.full }}" />
+                <h1>{{ current.title }}</h1>
+                <p>{{ current.artist }}</p>
                 <button ng-click="unmutePlayer()" ng-if="muted" class="btn btn-info"><span class="glyphicon glyphicon-volume-off"></span></button>
                 <button ng-click="mutePlayer()" ng-if="!muted" class="btn btn-info"><span class="glyphicon glyphicon-volume-up"></span></button>
             </div>
             <div ng-controller="ListController">
+                <div class="form-group">
+                    <input autocomplete="off" placeholder="Search" class="form-control" ng-model="filterList" />
+                </div>
                 <ul class="list-group media-list" id="playlist">
-                    <li class="media list-group-item" ng-class="{disabled: item.status == 'processing'}" style="margin-top:0;" ng-repeat="item in tracks">
+                    <li class="media list-group-item" ng-class="{disabled: item.status == 'processing'}" style="margin-top:0;" ng-repeat="item in tracks | filter: filterList">
                         <div class="media-left">
                             <i ng-if="item.status === 'processing'" class="loading-icon fa fa-circle-o-notch fa-spin"></i>
-                            <img class="media-object" width="75" height="75" ng-src="{{ item.thumbnail }}" />
+                            <img class="media-object" width="75" height="75" ng-src="{{ item.art.thumbnail }}" />
                         </div>
 
                         <div class="media-body">
@@ -74,7 +80,7 @@
                 <ul class="list-group media-list">
                     <li class="media list-group-item" style="margin-top:0;" ng-repeat="item in result.items">
                         <div class="media-left">
-                            <img class="media-object" width="75" height="75" ng-src="{{ item.thumbnail }}" />
+                            <img class="media-object" width="75" height="75" ng-src="{{ item.art.thumbnail }}" />
                         </div>
                         <div class="media-body">
                             <div class="btn-group-vertical btn-group-xs pull-right" role="group">

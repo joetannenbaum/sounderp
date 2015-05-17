@@ -20,12 +20,10 @@ $app->get('metadata', function() {
 
     $response = $client->get('http://' . env('ICECAST_URL') . ':' . env('ICECAST_PORT') . '/' . env('ICECAST_STREAM') . '.xspf');
 
-    dd($response->xml());
-
     $title = (string) $response->xml()->trackList->track->title;
 
     return [
-        'id' => $title,
+        'key' => htmlspecialchars_decode($title),
     ];
 });
 

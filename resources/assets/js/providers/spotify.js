@@ -14,10 +14,13 @@ module.exports = function(app) {
         this.search = function(query) {
             return Spotify.search(query, 'track').then(function(data) {
                 return _.map(data.tracks.items, function (item) {
+                    console.log(_.first(item.album.images));
                     return {
                         title: item.name,
-                        url: item.external_urls.spotify,
-                        thumbnail: item.album.images[item.album.images.length - 1].url,
+                        art: {
+                            full: (item.album.images.length) ? _.first(item.album.images).url : null,
+                            thumbnail: (item.album.images.length) ? _.last(item.album.images).url : null,
+                        },
                         artist: _.pluck(item.artists, 'name').join(', '),
                         preview_url: item.preview_url,
                         duration: item.duration_ms,
