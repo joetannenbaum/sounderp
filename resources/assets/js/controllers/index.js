@@ -22,6 +22,24 @@ module.exports = function(app) {
 
         $scope.current = {};
 
+        var updateCurrent = function(track) {
+            $scope.current = track;
+        }
+
+        var updateProgress = function() {
+            var diff = moment().format('x') - $scope.current.last_played;
+            $scope.current.progress = (diff / $scope.current.duration) * 100;
+
+            $timeout(updateProgress, 1000);
+        }
+
+        updateProgress();
+
+        $timeout(function() {
+            Firebase.listenFor.currentlyPlaying(updateCurrent);
+            Firebase.getCurrentlyPlaying(updateCurrent);
+        }, 500);
+
         $scope.mutePlayer = function() {
             mainPlayer.volume = 0;
             $scope.muted = true;

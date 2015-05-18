@@ -125,8 +125,22 @@ module.exports = function(app) {
                 obj.fb.tracks.on('child_changed', function(snapshot) {
                     callback(obj.formatTrackData(snapshot.key(), snapshot.val()));
                 });
+            },
+            currentlyPlaying: function(callback) {
+                obj.fb.tracks.orderByChild('last_played').on('child_changed', function(snapshot) {
+                    callback(snapshot.val());
+                });
             }
         };
+
+        this.getCurrentlyPlaying = function(callback) {
+            obj.fb.tracks.orderByChild('last_played').limitToLast(1).once('value', function(snapshot) {
+                var trackObj = snapshot.val();
+                for (var track in trackObj) {
+                    callback(trackObj[track]);
+                }
+            });
+        }
 
         this.getTrackByTitleAndArtist = function(title_artist) {
             var deferred = $q.defer();

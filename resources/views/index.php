@@ -14,6 +14,11 @@
                 <img class="thumbnail" width="150" height="150" ng-src="{{ current.art.full }}" />
                 <h1>{{ current.title }}</h1>
                 <p>{{ current.artist }}</p>
+                <div class="progress">
+                    <div class="progress-bar progress-bar-warning" role="progressbar" aria-valuenow="{{ current.progress }}" aria-valuemin="0" aria-valuemax="100" style="width: {{ current.progress }}%;">
+                        <!-- 60% -->
+                    </div>
+                </div>
                 <button ng-click="unmutePlayer()" ng-if="muted" class="btn btn-info"><span class="glyphicon glyphicon-volume-off"></span></button>
                 <button ng-click="mutePlayer()" ng-if="!muted" class="btn btn-info"><span class="glyphicon glyphicon-volume-up"></span></button>
             </div>
@@ -22,7 +27,7 @@
                     <input autocomplete="off" placeholder="Search" class="form-control" ng-model="filterList" />
                 </div>
                 <ul class="list-group media-list" id="playlist">
-                    <li class="media list-group-item" ng-class="{disabled: item.status == 'processing'}" style="margin-top:0;" ng-repeat="item in tracks | filter: filterList">
+                    <li class="media list-group-item" ng-show="!$last" ng-class="{disabled: item.status == 'processing'}" style="margin-top:0;" ng-repeat="item in tracks | filter: filterList">
                         <div class="media-left">
                             <i ng-if="item.status === 'processing'" class="loading-icon fa fa-circle-o-notch fa-spin"></i>
                             <img class="media-object" width="75" height="75" ng-src="{{ item.art.thumbnail }}" />
