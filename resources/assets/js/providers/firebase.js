@@ -99,6 +99,8 @@ module.exports = function(app) {
             item.last_vote = _.max(voteDates) || 0;
             item.votes     = votes;
 
+            item.last_played = item.last_played || 0;
+
             this.getUser(item.added_by).then(function(userData) {
                 item.added_by = userData;
 
@@ -127,7 +129,7 @@ module.exports = function(app) {
                 });
             },
             currentlyPlaying: function(callback) {
-                obj.fb.tracks.orderByChild('last_played').on('child_changed', function(snapshot) {
+                obj.fb.tracks.orderByChild('last_played').limitToLast(1).on('child_changed', function(snapshot) {
                     callback(snapshot.val());
                 });
             }
