@@ -129,8 +129,10 @@ module.exports = function(app) {
                 });
             },
             currentlyPlaying: function(callback) {
-                obj.fb.tracks.orderByChild('last_played').limitToLast(1).on('child_changed', function(snapshot) {
-                    callback(snapshot.val());
+                obj.fb.tracks.on('child_changed', function(snapshot, prevSnapshot) {
+                    if (snapshot.val().current) {
+                        callback(snapshot.val());
+                    }
                 });
             }
         };

@@ -55,11 +55,16 @@ class UpdateCurrentlyPlayingCommand extends Command {
                     $firebase->update('tracks/' . $key, [
                                                             'votes'       => [],
                                                             'last_played' => ['.sv' => 'timestamp']
+                                                            'current'     => true,
                                                         ]);
 
                     \Cache::put('currently-playing', $title, 60);
 
                     break;
+                } else {
+                    $firebase->update('tracks/' . $key, [
+                                                            'current'     => false,
+                                                        ]);
                 }
             }
         }
