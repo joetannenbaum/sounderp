@@ -54,7 +54,7 @@ class UpdateCurrentlyPlayingCommand extends Command {
 
                     $firebase->update('tracks/' . $key, [
                                                             'votes'       => [],
-                                                            'last_played' => ['.sv' => 'timestamp']
+                                                            'last_played' => ['.sv' => 'timestamp'],
                                                             'current'     => true,
                                                         ]);
 
