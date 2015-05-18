@@ -11,6 +11,20 @@ module.exports = function(app) {
         });
     });
 
+    app.controller('OnlineController', ['$scope', '$timeout', 'Firebase', function($scope, $timeout, Firebase) {
+        $scope.users = {};
+
+        var updateUserList = function(user) {
+            for (var id in user) {
+                $scope.users[id] = user[id];
+            }
+        };
+
+        $timeout(function() {
+            Firebase.listenFor.onlineUsers(updateUserList);
+        }, 500);
+    }]);
+
     app.controller('PlayerController', ['$scope', 'ngAudio', 'ngAudioGlobals', '$http', '$timeout', 'Firebase', function($scope, ngAudio, ngAudioGlobals, $http, $timeout, Firebase) {
         $http.get('/config/streaming').then(function(response) {
             ngAudioGlobals.unlock = false;

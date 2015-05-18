@@ -22,6 +22,13 @@
                 <button ng-click="unmutePlayer()" ng-if="muted" class="btn btn-info"><span class="glyphicon glyphicon-volume-off"></span></button>
                 <button ng-click="mutePlayer()" ng-if="!muted" class="btn btn-info"><span class="glyphicon glyphicon-volume-up"></span></button>
             </div>
+            <div ng-controller="OnlineController">
+                <ul class="list-inline" id="online-users">
+                    <li ng-repeat="user in users" ng-if="user.online">
+                        <img width="25" ng-src="{{ user.photo }}" alt="{{ user.name }}" />
+                    </li>
+                </ul>
+            </div>
             <div ng-controller="ListController">
                 <div class="form-group">
                     <input autocomplete="off" placeholder="Search" class="form-control" ng-model="filterList" />

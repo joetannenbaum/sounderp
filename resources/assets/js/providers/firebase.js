@@ -5,6 +5,7 @@ module.exports = function(app) {
     app.service('Firebase', ['$http', '$q', function($http, $q) {
         var obj   = this;
         var users = {};
+        var currentUser = {};
 
         this.fb = {};
 
@@ -14,7 +15,22 @@ module.exports = function(app) {
             obj.fb.tracks = new Firebase(obj.fb.url + '/tracks');
             obj.fb.users  = new Firebase(obj.fb.url + '/users');
             obj.fb.base   = new Firebase(obj.fb.url);
+
+            watchAuth();
         });
+
+        var watchAuth = function() {
+            obj.fb.base.onAuth(function(authData) {
+                if (authData) {
+                    obj.fb.users.child(authData.uid).update({online: true});
+                }
+            });
+
+        };
+
+        var watchForDisconnect = function() {
+            obj.fb.users.child(currentUser.auth.uid).onDisconnect().update({online: false});
+        };
 
         this.getUser = function(user_id) {
             var deferred = $q.defer();
@@ -48,14 +64,17 @@ module.exports = function(app) {
             var authData = this.fb.base.getAuth();
 
             if (authData) {
-                deferred.resolve(this.formatAuthData(authData));
+                currentUser = obj.formatAuthData(authData);
+                watchForDisconnect();
+                deferred.resolve(currentUser);
             } else {
                 this.fb.base.authWithOAuthPopup('facebook', function(error, authData) {
-                    var user = obj.formatAuthData(authData);
+                    currentUser = obj.formatAuthData(authData);
 
-                    obj.fb.users.child(authData.uid).set(user);
+                    obj.fb.users.child(authData.uid).set(currentUser);
 
-                    deferred.resolve(user);
+                    deferred.resolve(currentUser);
+                    watchForDisconnect();
                 }, { remember: 'sessionOnly' });
             }
 
@@ -126,6 +145,11 @@ module.exports = function(app) {
             updatedTracks: function(callback) {
                 obj.fb.tracks.on('child_changed', function(snapshot) {
                     callback(obj.formatTrackData(snapshot.key(), snapshot.val()));
+                });
+            },
+            onlineUsers: function(callback) {
+                obj.fb.users.on('value', function(snapshot) {
+                    callback(snapshot.val());
                 });
             },
             currentlyPlaying: function(callback) {

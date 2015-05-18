@@ -17,6 +17,17 @@ body {
     }
 }
 
+#online-users {
+    li {
+        padding-left: 3px;
+        padding-right: 3px;
+    }
+
+    img {
+        border-radius: 50%;
+    }
+}
+
 #search-pane {
     position:fixed;
     height: 100%;
