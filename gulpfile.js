@@ -1,16 +1,15 @@
-var elixir = require('laravel-elixir');
+var elixir        = require('laravel-elixir');
+var gulp          = require('gulp');
+var templateCache = require('gulp-angular-templatecache');
 
-/*
- |----------------------------------------------------------------
- | Have a Drink
- |----------------------------------------------------------------
- |
- | Elixir provides a clean, fluent API for defining some basic
- | Gulp tasks for your Laravel application. Elixir supports
- | several common CSS, JavaScript and even testing tools!
- |
- */
+gulp.task('cacheTemplates', function () {
+    gulp.src('resources/assets/js/templates/**/*.html')
+        .pipe(templateCache())
+        .pipe(gulp.dest('public/js'));
+});
 
 elixir(function(mix) {
-    mix.sass('main.scss').browserify('app.js');
+    mix.sass('main.scss')
+        .browserify('app.js')
+        .task('cacheTemplates', 'resources/assets/js/templates/**/*.html');
 });

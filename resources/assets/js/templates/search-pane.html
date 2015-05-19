@@ -1,0 +1,38 @@
+<form name="search" ng-submit="searchForTracks()">
+    <div ng-class="{'form-group': results.length === 0, 'input-group': results.length > 0}">
+        <input required name="query" autocomplete="off" placeholder="Search" class="form-control" ng-model="query" />
+        <span class="input-group-btn" ng-if="results.length">
+            <button class="btn btn-default" type="button" ng-click="clearSearch()">
+                <span class="glyphicon glyphicon-remove"></span>
+            </button>
+        </span>
+    </div>
+</form>
+<div class="search-results" ng-repeat="result in results">
+    <h4>{{ result.provider }} <span class="badge">{{ result.items.length }}</span></h4>
+    <ul class="list-group media-list">
+        <li class="media list-group-item" style="margin-top:0;" ng-repeat="item in result.items">
+            <div class="media-left">
+                <img class="media-object" width="75" height="75" ng-src="{{ item.art.thumbnail }}" />
+            </div>
+            <div class="media-body">
+                <div class="btn-group-vertical btn-group-xs pull-right" role="group">
+                    <a href="{{ item.url }}" target="_blank" class="btn btn-warning" aria-label="Permalink">
+                        <span class="glyphicon glyphicon-link"></span>
+                    </a>
+                    <a ng-click="playPreview(item)" ng-if="item.preview_url && !item.previewing" class="btn btn-warning" aria-label="Preview Track">
+                        <span class="glyphicon glyphicon-play"></span>
+                    </a>
+                    <a ng-click="pausePreview(item)" ng-if="item.previewing" class="btn btn-warning" aria-label="Preview Track">
+                        <span class="glyphicon glyphicon-pause"></span>
+                    </a>
+                    <a ng-click="addTrack(item)" class="btn btn-warning" aria-label="Add Track">
+                        <span class="glyphicon glyphicon-plus"></span>
+                    </a>
+                </div>
+                <h4 class="media-heading">{{ item.title }}</h4>
+                <p>{{ item.artist }}</p>
+            </div>
+        </li>
+    </ul>
+</div>

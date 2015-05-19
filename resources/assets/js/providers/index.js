@@ -7,4 +7,6 @@ module.exports = function(app) {
     require('./youtube')(app);
     require('./firebase')(app);
     require('./server')(app);
-}
+    require('./search')(app);
+    require('./player')(app);
+};
