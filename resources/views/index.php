@@ -7,70 +7,19 @@
     <link href="/css/main.css" rel="stylesheet" />
 </head>
 <body>
+
     <div class="container-fluid">
         <div class="col-md-8">
             <div ng-controller="AuthController"></div>
-            <div class="jumbotron" id="currently-playing">
-                <player></player>
-            </div>
-            <div ng-controller="OnlineController">
-                <ul class="list-inline" id="online-users">
-                    <li ng-repeat="user in users" ng-if="user.online">
-                        <img width="25" ng-src="{{ user.photo }}" alt="{{ user.name }}" />
-                    </li>
-                </ul>
-            </div>
-            <div ng-controller="ListController">
-                <div class="form-group">
-                    <input autocomplete="off" placeholder="Search" class="form-control" ng-model="filterList" />
-                </div>
-                <ul class="list-group media-list" id="playlist">
-                    <li class="media list-group-item" ng-show="!$last" ng-class="{disabled: item.status == 'processing', 'text-warning': item.last_played == 0}" style="margin-top:0;" ng-repeat="item in tracks | filter: filterList">
-                        <div class="media-left">
-                            <i ng-if="item.status === 'processing'" class="loading-icon fa fa-circle-o-notch fa-spin"></i>
-                            <img class="media-object" width="75" height="75" ng-src="{{ item.art.thumbnail }}" />
-                        </div>
-
-                        <div class="media-body">
-                            <div class="btn-group btn-group-sm pull-right" role="group">
-                                    <a ng-repeat="source in item.sources" href="{{ source.url }}" target="_blank" class="btn btn-info" aria-label="Permalink">
-                                        <span class="fa fa-{{ source.type }}"></span>
-                                    </a>
-                                <a ng-click="playPreview(item)" ng-if="item.preview_url && !item.previewing" class="btn btn-warning" aria-label="Preview Track">
-                                    <span class="glyphicon glyphicon-play"></span>
-                                </a>
-                                <a ng-click="pausePreview(item)" ng-if="item.previewing" class="btn btn-warning" aria-label="Preview Track">
-                                    <span class="glyphicon glyphicon-stop"></span>
-                                </a>
-                                <a ng-click="upVote(item)" ng-if="!item.voted" class="btn btn-success" aria-label="Preview Track">
-                                    <span class="glyphicon glyphicon-arrow-up"></span>
-                                </a>
-                            </div>
-
-                            <ul class="list-inline votes">
-                                <li ng-repeat="vote in item.votes">
-                                    <img width="25" ng-src="{{ vote.photo }}" alt="{{ vote.name }}" />
-                                </li>
-                            </ul>
-
-                            <h4 class="media-heading">{{ item.title }}</h4>
-                            <p>{{ item.artist }}</p>
-                            <small class="text-muted" title="{{ item.added_on_formatted }}">
-                                {{ item.added_on_relative }} by {{ item.added_by.first_name }}
-                            </small>
-
-                            <a ng-click="deleteTrack(item)" style="display:none;" class="btn btn-xs btn-danger delete-track" aria-label="Add Track">
-                                <span class="glyphicon glyphicon-trash"></span>
-                            </a>
-                        </div>
-                    </li>
-                </ul>
-            </div>
+            <player></player>
+            <online-users></online-users>
+            <playlist></playlist>
         </div>
         <div class="col-md-4" id="search-pane">
             <search-pane></search-pane>
         </div>
     </div>
+
     <script type="text/javascript" src="/js/components/angular/angular.min.js"></script>
     <script type="text/javascript" src="/js/components/angular-cookies/angular-cookies.min.js"></script>
     <script type="text/javascript" src="/js/components/lodash/lodash.min.js"></script>
@@ -81,5 +30,6 @@
     <script type="text/javascript" src="//connect.soundcloud.com/sdk.js"></script>
     <script type="text/javascript" src="/js/bundle.js"></script>
     <script type="text/javascript" src="/js/templates.js"></script>
+
 </body>
 </html>

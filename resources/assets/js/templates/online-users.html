@@ -1,0 +1,5 @@
+<ul class="list-inline" id="online-users">
+    <li ng-repeat="user in users" ng-if="user.online">
+        <img width="25" ng-src="{{ user.photo }}" alt="{{ user.name }}" />
+    </li>
+</ul>
