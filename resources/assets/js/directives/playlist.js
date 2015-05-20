@@ -14,6 +14,10 @@ module.exports = function(app) {
                     scope.tracks = orderBy(scope.tracks, ['-votes.length', 'last_vote', 'last_played', 'added_on']);
                 };
 
+                scope.deleteTrack = function (track) {
+                    Firebase.deleteTrack(track.id);
+                };
+
                 var updateTrack = function(track) {
                     _.each(scope.tracks, function(item, key) {
                         if (item.id === track.id) {
@@ -21,11 +25,25 @@ module.exports = function(app) {
                         }
                     });
 
+                    renderPlaylist();
+                };
+
+                var renderPlaylist = function() {
                     reorderTracks();
 
                     var playableUrls = _.filter(scope.tracks, {status: 'playable'});
 
                     Server.rebuildPlaylist(playableUrls);
+                }
+
+                var removeTrack = function(track) {
+                    _.each(scope.tracks, function(item, key) {
+                        if (item.id === track.id) {
+                            scope.tracks.splice(key, 1);
+                        }
+                    });
+
+                    renderPlaylist();
                 };
 
                 var addTrack = function(track) {
@@ -36,7 +54,13 @@ module.exports = function(app) {
                 $timeout(function() {
                     Firebase.listenFor.newTracks(addTrack);
                     Firebase.listenFor.updatedTracks(updateTrack);
+                    Firebase.listenFor.deletedTracks(removeTrack);
                 }, 500);
+
+                scope.updateTrackInfo = function(item) {
+                    Firebase.updateTrackInfo(item);
+                    item.editing = false;
+                };
 
                 scope.upVote = function(item) {
                     Firebase.addVote(item.id, Auth.user);

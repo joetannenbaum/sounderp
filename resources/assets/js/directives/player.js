@@ -23,7 +23,6 @@ module.exports = function(app) {
                 scope.current = {};
 
                 var updateCurrent = function(track) {
-                    console.log(track);
                     scope.current = track;
                 }
 

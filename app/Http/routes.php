@@ -15,17 +15,6 @@ $app->get('/', function() use ($app) {
     return view('index');
 });
 
-$app->get('playlist', function() {
-    $tracks = [
-        '../audio/vincent.ogg',
-        '../audio/another-day-in-paradise.ogg',
-        '../audio/back-in-black.ogg',
-        '../audio/sing.ogg',
-    ];
-
-    \Storage::disk('s3')->put('playlist/dev.txt', implode("\n", $tracks), 'public');
-});
-
 $app->group(['prefix' => 'config'], function() use ($app) {
     $app->get('streaming', function() {
         return [
@@ -67,7 +56,7 @@ $app->post('playlist', function() {
     foreach ($playlist as $item) {
         $data[] = 'annotate:title="'
                     . htmlentities($item['title']) . '",artist="'
-                    . htmlentities($item['artist']) . '":'
+                    . htmlentities(array_get($item, 'artist')) . '":'
                     . $item['url'];
     }
 

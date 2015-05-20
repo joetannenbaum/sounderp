@@ -83,6 +83,16 @@ body {
 }
 
 #playlist {
+    // .hover-show {
+    //     display: none;
+    // }
+
+    // li:hover {
+    //     .hover-show {
+    //         display: inline;
+    //     }
+    // }
+
     .disabled {
         .loading-icon {
             position: absolute;
@@ -93,5 +103,9 @@ body {
         .media-object {
             opacity: .25;
         }
+    }
+
+    .edit-form {
+        width: 50%;
     }
 }

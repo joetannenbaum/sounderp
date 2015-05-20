@@ -48,8 +48,9 @@ class UpdateCurrentlyPlayingCommand extends Command {
             $firebase = new Firebase(env('FIREBASE_URL'), env('FIREBASE_TOKEN'));
             $tracks   = json_decode($firebase->get('tracks'));
 
+
             foreach ($tracks as $key => $track) {
-                if ($title === $track->artist . ' - ' . $track->title) {
+                if ($title === object_get($track, 'artist') . ' - ' . $track->title) {
                     $this->comment('Setting ' . $track->title . ' as currently playing (' . $key . ')');
 
                     $firebase->update('tracks/' . $key, [

@@ -136,6 +136,10 @@ module.exports = function(app) {
             return item;
         };
 
+        this.deleteTrack = function(track_id) {
+            this.fb.tracks.child(track_id).remove();
+        };
+
         this.listenFor = {
             newTracks: function(callback) {
                 obj.fb.tracks.on('child_added', function(snapshot) {
@@ -144,6 +148,11 @@ module.exports = function(app) {
             },
             updatedTracks: function(callback) {
                 obj.fb.tracks.on('child_changed', function(snapshot) {
+                    callback(obj.formatTrackData(snapshot.key(), snapshot.val()));
+                });
+            },
+            deletedTracks: function(callback) {
+                obj.fb.tracks.on('child_removed', function(snapshot) {
                     callback(obj.formatTrackData(snapshot.key(), snapshot.val()));
                 });
             },
@@ -168,7 +177,14 @@ module.exports = function(app) {
                     callback(trackObj[track]);
                 }
             });
-        }
+        };
+
+        this.updateTrackInfo = function(track) {
+            this.fb.tracks.child(track.id).update({
+                title: track.title,
+                artist: track.artist
+            });
+        };
 
         this.getTrackByTitleAndArtist = function(title_artist) {
             var deferred = $q.defer();

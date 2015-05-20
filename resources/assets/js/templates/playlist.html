@@ -23,15 +23,18 @@
                     </li>
                 </ul>
 
-                <h4 class="media-heading">{{ item.title }}</h4>
-                <p>{{ item.artist }}</p>
-                <small class="text-muted" title="{{ item.added_on_formatted }}">
-                    {{ item.added_on_relative }} by {{ item.added_by.first_name }}
-                </small>
-
-                <a ng-click="deleteTrack(item)" style="display:none;" class="btn btn-xs btn-danger delete-track" aria-label="Add Track">
-                    <span class="glyphicon glyphicon-trash"></span>
-                </a>
+                <form ng-submit="updateTrackInfo(item)" class="edit-form">
+                    <h4 class="media-heading">
+                        <i class="fa fa-chevron-circle-right" ng-if="item.last_played == 0"></i>
+                        <span ng-show="!item.editing">{{ item.title }}</span>
+                        <input type="text" ng-model="item.title" class="form-control" ng-show="item.editing" />
+                    </h4>
+                    <p ng-show="!item.editing">{{ item.artist }}</p>
+                    <input type="text" ng-model="item.artist" class="form-control" ng-show="item.editing" />
+                    <small class="text-muted" title="{{ item.added_on_formatted }}">
+                        {{ item.added_on_relative }} by {{ item.added_by.first_name }}
+                    </small>
+                </form>
             </div>
         </li>
     </ul>

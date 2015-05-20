@@ -1,13 +1,28 @@
 <div class="btn-group btn-group-sm pull-right" role="group">
-    <a ng-repeat="source in item.sources" href="{{ source.url }}" target="_blank" class="btn btn-info" aria-label="Permalink">
+    <a ng-click="deleteTrack(item)" class="btn btn-xs btn-danger delete-track hover-show" aria-label="Delete Track">
+        <span class="glyphicon glyphicon-trash"></span>
+    </a>
+
+    <a ng-click="item.editing = true" ng-if="!item.editing" class="btn btn-xs btn-info hover-show" aria-label="Edit Track">
+        <span class="glyphicon glyphicon-pencil"></span>
+    </a>
+
+    <a ng-click="updateTrackInfo(item)" ng-if="item.editing" class="btn btn-xs btn-info hover-show" aria-label="Save Track">
+        <span class="glyphicon glyphicon-floppy-disk"></span>
+    </a>
+
+    <a ng-repeat="source in item.sources" href="{{ source.url }}" target="_blank" class="btn btn-primary hover-show" aria-label="Permalink">
         <span class="fa fa-{{ source.type }}"></span>
     </a>
-    <a ng-click="playPreview(item)" ng-if="item.preview_url && !item.previewing" class="btn btn-warning" aria-label="Preview Track">
+
+    <a ng-click="playPreview(item)" ng-if="item.preview_url && !item.previewing" class="btn btn-warning hover-show" aria-label="Preview Track">
         <span class="glyphicon glyphicon-play"></span>
     </a>
-    <a ng-click="pausePreview(item)" ng-if="item.previewing" class="btn btn-warning" aria-label="Preview Track">
+
+    <a ng-click="pausePreview(item)" ng-if="item.previewing" class="btn btn-warning hover-show" aria-label="Preview Track">
         <span class="glyphicon glyphicon-stop"></span>
     </a>
+
     <a ng-click="upVote(item)" ng-if="!item.voted" class="btn btn-success" aria-label="Preview Track">
         <span class="glyphicon glyphicon-arrow-up"></span>
     </a>
