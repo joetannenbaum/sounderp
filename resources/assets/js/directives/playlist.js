@@ -60,7 +60,6 @@ module.exports = function(app) {
                 scope.updateTrackInfo = function(item) {
                     Firebase.updateTrackInfo(item);
                     item.editing = false;
-                    renderPlaylist();
                 };
 
                 scope.upVote = function(item) {
