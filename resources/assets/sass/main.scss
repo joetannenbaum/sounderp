@@ -1,6 +1,6 @@
 body {
     padding-top: 15px;
-    padding-bottom: 170px;
+    padding-bottom: 200px;
 }
 
 .votes {
@@ -48,7 +48,7 @@ body {
     left: 0;
     right: 0;
     background: #eee;
-    padding-left: 175px;
+    padding-left: 195px;
     z-index: 1000;
     box-shadow: 0 0 5px rgba(0, 0, 0, .5);
     padding-right: 10px;
@@ -68,6 +68,7 @@ body {
     }
 
     .thumbnail {
+        width: 175px;
         position: absolute;
         left: 10px;
         bottom: 10px;
