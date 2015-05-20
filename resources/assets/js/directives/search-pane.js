@@ -44,10 +44,11 @@ module.exports = function(app) {
                     track.votes  = [];
 
                     if (item.sources[0].type === 'spotify') {
-                        YouTube.search(item.title + ' ' + item.artist, item.duration).then(function(results) {
-                            track.sources.push(results);
-                            pushTrack(track);
-                        });
+                        YouTube.search(item.title + ' ' + item.artist, item.duration)
+                            .then(function(result) {
+                                track.sources.push(result);
+                                pushTrack(track);
+                            });
                     } else {
                         pushTrack(track);
                     }
@@ -75,9 +76,16 @@ module.exports = function(app) {
                 };
 
                 scope.searchForTracks = function() {
-                    Search.search(scope.query).then(function(response) {
-                        scope.results = response;
-                    });
+                    if (scope.query.includes('youtube.com')) {
+                        YouTube.searchFromUrl(scope.query).then(function(track) {
+                            scope.addTrack(track);
+                            scope.query = '';
+                        });
+                    } else {
+                        Search.search(scope.query).then(function(response) {
+                            scope.results = response;
+                        });
+                    }
                 };
             }
         };

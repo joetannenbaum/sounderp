@@ -6,10 +6,6 @@ class Processor {
 
     protected $tag_writer;
 
-    protected $track;
-
-    protected $artist;
-
     protected $firebase;
 
     public function __construct()
@@ -31,13 +27,13 @@ class Processor {
 
         $tag_data = [
             'title'  => [$data->title],
-            'artist' => [$data->artist],
+            'artist' => [object_get($data, 'artist')],
         ];
 
         $this->tag_writer->tag_data = $tag_data;
         $this->tag_writer->WriteTags();
 
-        $s3_path = 'audio/' . str_slug($data->artist . ' ' . $data->title) . '.ogg';
+        $s3_path = 'audio/' . str_slug(object_get($data, 'artist') . ' ' . $data->title) . '.ogg';
 
         \Storage::drive('s3')->put($s3_path, file_get_contents($filename), 'public');
 

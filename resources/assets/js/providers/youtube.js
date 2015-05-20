@@ -6,6 +6,7 @@ module.exports = function(app) {
 
         var key;
         var baseUrl = 'https://www.googleapis.com/youtube/v3';
+        var obj = this;
 
         $http.get('/config/youtube').then(function(response) {
                                         key = response.data.key;
@@ -27,27 +28,68 @@ module.exports = function(app) {
             }).as('milliseconds');
         }
 
-        var getClosestMatch = function(videoIds, duration) {
-
+        this.getDetail = function(videoIds) {
             return $http.get(baseUrl + '/videos', {
                         params: {
                             key: key,
-                            part: 'contentDetails',
+                            part: 'snippet,contentDetails',
                             id: videoIds.join(',')
                         }
-                    })
-                    .then(function(results) {
-                        var items = [];
-
-                        _.each(results.data.items, function(item) {
-                            items.push({
-                                id: item.id,
-                                difference: Math.abs(duration - msFromIsoDuration(item.contentDetails.duration))
-                            });
-                        });
-
-                        return _.min(items, 'difference');
+                    }).then(function(response) {
+                        return response;
                     });
+        };
+
+        var extractIdFromUrl = function(url) {
+            var id = '';
+
+            url = url.replace(/(>|<)/gi,'').split(/(vi\/|v=|\/v\/|youtu\.be\/|\/embed\/)/);
+
+            if (url[2] !== undefined) {
+                id = url[2].split(/[^0-9a-z_\-]/i);
+                return id[0];
+            }
+
+            return url;
+        };
+
+        this.searchFromUrl = function(url) {
+            var id = extractIdFromUrl(url);
+
+            return this.getDetail([id]).then(function(response) {
+                var item = response.data.items[0];
+                    return {
+                        title: item.snippet.title,
+                        art: {
+                            full: item.snippet.thumbnails.maxres.url,
+                            thumbnail: item.snippet.thumbnails.standard.url,
+                        },
+                        duration: msFromIsoDuration(item.contentDetails.duration),
+                        sources: [
+                            {
+                                type: 'youtube',
+                                url: url
+                            }
+                        ]
+                    };
+            });
+        }
+
+        var getClosestMatch = function(videoIds, duration) {
+
+            return obj.getDetail(videoIds)
+                        .then(function(results) {
+                            var items = [];
+
+                            _.each(results.data.items, function(item) {
+                                items.push({
+                                    id: item.id,
+                                    difference: Math.abs(duration - msFromIsoDuration(item.contentDetails.duration))
+                                });
+                            });
+
+                            return _.min(items, 'difference');
+                        });
         }
 
         this.search = function(query, duration) {

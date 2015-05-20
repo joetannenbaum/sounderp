@@ -17,7 +17,7 @@
             </div>
             <div class="media-body">
                 <div class="btn-group-vertical btn-group-xs pull-right" role="group">
-                    <a href="{{ item.url }}" target="_blank" class="btn btn-warning" aria-label="Permalink">
+                    <a href="{{ item.sources[0].url }}" target="_blank" class="btn btn-warning" aria-label="Permalink">
                         <span class="glyphicon glyphicon-link"></span>
                     </a>
                     <a ng-click="playPreview(item)" ng-if="item.preview_url && !item.previewing" class="btn btn-warning" aria-label="Preview Track">
