@@ -20,7 +20,7 @@ module.exports = function(app) {
                         return {
                             title: item.title,
                             art: {
-                                full: item.artwork_url,
+                                full: item.artwork_url.replace('-large', '-t500x500'),
                                 thumbnail: item.artwork_url,
                             },
                             artist: item.user.username,
