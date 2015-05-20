@@ -1,4 +1,8 @@
-<div class="jumbotron" id="currently-playing">
+<div id="currently-playing">
+
+    <button ng-click="unmutePlayer()" ng-if="muted" class="btn pull-right btn-info"><span class="glyphicon glyphicon-volume-off"></span></button>
+    <button ng-click="mutePlayer()" ng-if="!muted" class="btn pull-right btn-info"><span class="glyphicon glyphicon-volume-up"></span></button>
+
     <img class="thumbnail" width="150" height="150" ng-src="{{ current.art.full }}" />
     <h1>{{ current.title }}</h1>
     <p>{{ current.artist }}</p>
@@ -12,6 +16,4 @@
             style="width: {{ current.progress }}%;">
         </div>
     </div>
-    <button ng-click="unmutePlayer()" ng-if="muted" class="btn btn-info"><span class="glyphicon glyphicon-volume-off"></span></button>
-    <button ng-click="mutePlayer()" ng-if="!muted" class="btn btn-info"><span class="glyphicon glyphicon-volume-up"></span></button>
 </div>

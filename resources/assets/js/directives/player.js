@@ -12,6 +12,10 @@ module.exports = function(app) {
                     player = mainPlayer;
 
                     player.play();
+
+                    if (scope.muted) {
+                        player.volume = 0;
+                    }
                 });
 
                 scope.muted = $cookieStore.get('player-muted');
