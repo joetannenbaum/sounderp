@@ -1,14 +1,14 @@
 <div>
     <div class="form-group">
-        <input autocomplete="off" placeholder="Search" class="form-control" ng-model="filterList" />
+        <input autocomplete="off" placeholder="Search" class="form-control" ng-model="trackSearch" />
     </div>
     <ul class="list-group media-list" id="playlist">
         <li
             class="media list-group-item"
-            ng-show="!$last"
+            ng-show="!item.current"
             ng-class="{disabled: item.status == 'processing', 'text-warning': item.last_played == 0}"
             style="margin-top:0;"
-            ng-repeat="item in tracks | filter: filterList">
+            ng-repeat="item in tracks | filter:trackSearch">
             <div class="media-left">
                 <i ng-if="item.status === 'processing'" class="loading-icon fa fa-circle-o-notch fa-spin"></i>
                 <img class="media-object" width="75" height="75" ng-src="{{ item.art.thumbnail }}" />
