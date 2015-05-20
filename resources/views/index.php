@@ -6,11 +6,14 @@
     <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
     <link href="/css/main.css" rel="stylesheet" />
 </head>
-<body>
+<body ng-controller="AuthController">
 
-    <div class="container-fluid">
+    <div id="main-loader" ng-show="!authed">
+        <i class="loading-icon fa fa-circle-o-notch fa-spin"></i>
+    </div>
+
+    <div class="container-fluid" ng-show="authed">
         <div class="col-md-8">
-            <div ng-controller="AuthController"></div>
             <player></player>
             <online-users></online-users>
             <playlist></playlist>
