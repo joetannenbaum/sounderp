@@ -123,7 +123,7 @@ module.exports = function(app) {
             this.getUser(item.added_by).then(function(userData) {
                 item.added_by = userData;
 
-                if (_.find(item.votes, { id: userData.id }, 'id')) {
+                if (_.find(item.votes, { id: currentUser.auth.uid }, 'id')) {
                     item.voted = true;
                 } else {
                     item.voted = false;
